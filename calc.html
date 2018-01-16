@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Calculator</title>
+    <style>
+table {
+  width: 24%;
+  margin: 0 auto;
+  border: 1px solid black;
+  border-collapse: collapse;
+  align: center;
+}
+td {
+  width: 35em;
+  margin: 0 auto;
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+}
+    td.displayFld {
+      background-color: black;
+      color: white;
+      text-align: right;
+      font-size: 24px;
+    }
+    button {
+      color: black;
+      background-color: white; 
+      border: none;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      height: 100%;
+      width: 100%;
+    }
+    button.func {
+      color: white;
+      background-color: orange;
+      border: blue;
+    }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td id="display" align="right" colspan="4" class="displayFld">0</td>
+      </tr>
+      <tr>
+        <td><button onclick="acBtn()">AC</button></td>
+        <td><button onclick="signBtn()">+/-</button></td>
+        <td><button onclick="percentBtn()">%</button></td>
+        <td><button onclick="divideBtn()" class="func">÷</button></td>
+      </tr>
+      <tr>
+        <td><button onclick="sevenBtn()">7</button></td>
+        <td><button onclick="eightBtn()">8</button></td>
+        <td><button onclick="nineBtn()">9</button></td>
+        <td><button class="func" onclick="multBtn()">x</button></td>
+      </tr>
+      <tr>
+        <td><button onclick="fourBtn()">4</button></td>
+        <td><button onclick="fiveBtn()">5</button></td>
+        <td><button onclick="sixBtn()">6</button></td>
+        <td><button class="func" onclick="minusBtn()">-</button></td>
+      </tr>
+      <tr>
+        <td><button onclick="oneBtn()">1</button></td>
+        <td><button onclick="twoBtn()">2</button></td>
+        <td><button onclick="threeBtn()">3</button></td>
+        <td><button class="func" onclick="plusBtn()">+</button></td>
+      </tr>
+      <tr>
+        <td colspan="2"><button onclick="zeroBtn()">0</button></td>
+        <td><button onclick="decimalBtn()">.</button></td>
+        <td><button class="func" onclick="equalsBtn()">=</button></td>
+      </tr>
+    </table>
+    <script>
+var disp = document.getElementById("display");
+var numbers = [];
+var resetDisp = false;
+var hasResult = false;
+var op = [];
+var hasDec = false;
+function p(){
+  console.log("STATE, numbers: " + numbers.toString() + " op: " + op.toString());
+}
+function acBtn(){
+  numbers = [];
+  resetDisp = false;
+  hasResult = false;
+  op = [];
+  hasDec = false;
+  disp.textContent = "0";
+}
+function processNum(num){
+  if(resetDisp)
+  {
+    numbers[0] = disp.textContent;
+    resetDisp = false;
+    hasDec = false;
+    disp.textContent = num;
+  }else{
+    disp.textContent = disp.textContent += num;
+  }
+}
+function processFunc(fn){
+  resetDisp = true;
+  if(!op[0]){
+    op[0] = fn;
+  }else{ 
+    if(!hasResult){
+      equalsBtn();
+    }
+    op[0] = fn;
+  }
+}
+function equalsBtn(){
+  p();
+  if(numbers[0]){
+    numbers[1] = Number(disp.textContent);
+    switch (op[0]){
+      case "+":
+        numbers[0] = numbers[0] + numbers[1];
+        disp.textContent = numbers[0];
+        break;
+      case "-":
+        numbers[0] = numbers[0] - numbers[1];
+        disp.textContent = numbers[0];
+        break;
+      case "x":
+        numbers[0] = numbers[0] * numbers[1];
+        disp.textContent = numbers[0];
+        break;
+      case "÷":
+        numbers[0] = numbers[0] / numbers[1];
+        disp.textContent = numbers[0];
+        break;
+      default:
+        console.log("wtf!");
+        break;
+    }
+    p();
+    numbers[0] = Number(disp.textContent);
+    hasResult = true;
+  }
+}
+function signBtn(){
+  disp.textContent = Number(disp.textContent) * -1;
+}
+function percentBtn(){
+  hasDec = true;
+  disp.textContent *= .01;
+}
+function divideBtn(){
+  processFunc("÷");
+} 
+function multBtn(){
+  processFunc("x");
+}
+function minusBtn(){
+  processFunc("-");
+}
+function plusBtn(){
+  processFunc("+");
+}
+function decimalBtn(){
+  if(!hasDec)
+  {
+    hasDec = true;
+    processNum(".");
+  }
+}
+function zeroBtn(){
+  processNum("0");
+}
+function oneBtn(){
+  processNum("1");
+}
+function twoBtn(){
+  processNum("2");
+}
+function threeBtn(){
+  processNum("3");
+}
+function fourBtn(){
+  processNum("4");
+}
+function fiveBtn(){
+  processNum("5");
+}
+function sixBtn(){
+  processNum("6");
+}
+function sevenBtn(){
+  processNum("7");
+}
+function eightBtn(){
+  processNum("8");
+}
+function nineBtn(){
+  processNum("9");
+}
+    </script>
+  </body>
+</html>
+
